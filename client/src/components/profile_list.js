@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import DeleteIcon from "@material-ui/icons/Delete";
 import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
 
@@ -34,12 +35,18 @@ const updateProfileMutation = gql`
   }
 `;
 
+const deleteProfileMutation = gql`
+  mutation($id: ID!) {
+    deleteProfile(id: $id)
+  }
+`;
+
 class CheckboxListSecondary extends React.Component {
   updateProfile = async profile => {
     await this.props.updateProfile({
       variables: {
         id: profile.id,
-        name: "Prokers"
+        name: "foo"
       },
       update: store => {
         const data = store.readQuery({ query: ProfilesQuery });
@@ -52,6 +59,19 @@ class CheckboxListSecondary extends React.Component {
                 }
               : x
         );
+        store.writeQuery({ query: ProfilesQuery, data });
+      }
+    });
+  };
+
+  deleteProfile = async profile => {
+    await this.props.deleteProfile({
+      variables: {
+        id: profile.id
+      },
+      update: store => {
+        const data = store.readQuery({ query: ProfilesQuery });
+        data.profiles = data.profiles.filter(x => x.id !== profile.id);
         store.writeQuery({ query: ProfilesQuery, data });
       }
     });
@@ -76,10 +96,6 @@ class CheckboxListSecondary extends React.Component {
       checked: newChecked
     });
   };
-
-  log(item) {
-    console.log("foo");
-  }
 
   render() {
     const { classes, profiles } = this.props;
@@ -106,6 +122,12 @@ class CheckboxListSecondary extends React.Component {
                 >
                   <MoreVertIcon />
                 </IconButton>
+                <IconButton
+                  aria-label="Delete"
+                  onClick={() => this.deleteProfile(profile)}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
           ))}
@@ -121,5 +143,6 @@ CheckboxListSecondary.propTypes = {
 
 export default compose(
   withStyles(styles),
-  graphql(updateProfileMutation, { name: "updateProfile" })
+  graphql(updateProfileMutation, { name: "updateProfile" }),
+  graphql(deleteProfileMutation, { name: "deleteProfile" })
 )(CheckboxListSecondary);
