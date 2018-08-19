@@ -103,7 +103,7 @@ class CheckboxListSecondary extends React.Component {
     return (
       <div className={classes.root}>
         <List>
-          {profiles.map(profile => (
+          {profiles && profiles.map(profile => (
             <ListItem
               key={`profile-${profile.id}`}
               dense

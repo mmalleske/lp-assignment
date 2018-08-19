@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
 import ProgressIndicator from "./components/progress_indicator";
 import ProfileList from "./components/profile_list";
+import CreateForm from "./components/new_profile_form";
 
 const ProfilesQuery = gql`
   {
@@ -13,18 +14,25 @@ const ProfilesQuery = gql`
   }
 `;
 
-const updateProfileMutation = gql`
-  mutation($id: ID!, $name: String!) {
-    updateProfile(id: $id, name: $name)
+const CreateProfileMutation = gql`
+  mutation($name: String!) {
+    createProfile(name: $name) {
+      id
+      name
+    }
   }
 `;
 
 class App extends Component {
-  updateProfile = async profile => {
-    await this.props.updateProfile({
+  createProfile = async name => {
+    await this.props.createProfile({
       variables: {
-        id: profile.id,
-        name: "KANPAI!!"
+        name
+      },
+      update: (store, { data: { createProfile } }) => {
+        const data = store.readQuery({ query: ProfilesQuery });
+        data.profiles.unshift(createProfile);
+        store.writeQuery({ query: ProfilesQuery, data });
       }
     });
   };
@@ -33,13 +41,14 @@ class App extends Component {
     const {
       data: { loading, profiles }
     } = this.props;
-    console.log(this.props);
+
     if (loading) {
       return <ProgressIndicator />;
     }
 
     return (
-      <div className="flex blue">
+      <div className="mh5">
+        <CreateForm submit={this.createProfile} />
         <div className="w-100">
           <ProfileList profiles={profiles} />
         </div>
@@ -50,5 +59,5 @@ class App extends Component {
 
 export default compose(
   graphql(ProfilesQuery),
-  graphql(updateProfileMutation, { name: "updateProfile" })
+  graphql(CreateProfileMutation, { name: "createProfile" }),
 )(App);
