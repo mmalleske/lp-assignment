@@ -1,26 +1,41 @@
-import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-import ProgressIndicator from './components/progress_indicator';
-import ProfileList from './components/profile_list';
+import React, { Component } from "react";
+import gql from "graphql-tag";
+import { graphql, compose } from "react-apollo";
+import ProgressIndicator from "./components/progress_indicator";
+import ProfileList from "./components/profile_list";
 
 const ProfilesQuery = gql`
   {
-  	profiles {
+    profiles {
       name
       id
     }
   }
 `;
 
+const updateProfileMutation = gql`
+  mutation($id: ID!, $name: String!) {
+    updateProfile(id: $id, name: $name)
+  }
+`;
+
 class App extends Component {
+  updateProfile = async profile => {
+    await this.props.updateProfile({
+      variables: {
+        id: profile.id,
+        name: "KANPAI!!"
+      }
+    });
+  };
+
   render() {
-    const {data: {loading, profiles}} = this.props;
-    console.log(this.props)
-    if(loading) {
-      return (
-        <ProgressIndicator />
-      );
+    const {
+      data: { loading, profiles }
+    } = this.props;
+    console.log(this.props);
+    if (loading) {
+      return <ProgressIndicator />;
     }
 
     return (
@@ -33,4 +48,7 @@ class App extends Component {
   }
 }
 
-export default graphql(ProfilesQuery)(App);
+export default compose(
+  graphql(ProfilesQuery),
+  graphql(updateProfileMutation, { name: "updateProfile" })
+)(App);
