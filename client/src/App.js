@@ -47,7 +47,7 @@ class App extends Component {
     }
 
     return (
-      <div className="mh5">
+      <div className="mh5 mv1">
         <CreateForm submit={this.createProfile} />
         <div className="w-100">
           <ProfileList profiles={profiles} />
