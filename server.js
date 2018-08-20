@@ -1,7 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/launchpad_test')
+mongoose.connect('mongodb://userTwo:test420@ds127342.mlab.com:27342/launchpad-assignment');
+
+console.log('foo', process.env.LAUNCHPAD_DB)
 
 const Profile = mongoose.model('Profile', {
   name: String,
