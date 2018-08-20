@@ -58,4 +58,5 @@ app.get('*', (req, res) => {
 const server = new GraphQLServer({ typeDefs, resolvers })
 mongoose.connection.once('open', function() {
   server.start(() => console.log('Server is running on localhost:4000'))
+  app.listen(3000, () => console.log('App listening on port 3000'))
 });
