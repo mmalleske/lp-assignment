@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const express = require('express')
 const path = require('path')
 
+const app = express();
+
 mongoose.connect('mongodb://userTwo:test420@ds127342.mlab.com:27342/launchpad-assignment');
 
 const Profile = mongoose.model('Profile', {
