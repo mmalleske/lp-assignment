@@ -39,7 +39,6 @@ export default class CreateForm extends React.Component {
           margin="normal"
           value={name}
           fullWidth
-          data="Name"
         />
         <TextField
           onChange={this.editDescription}
@@ -47,7 +46,6 @@ export default class CreateForm extends React.Component {
           margin="normal"
           value={description}
           fullWidth
-          data="Name"
         />
         <TextField
           onChange={this.editImageUrl}
@@ -55,7 +53,6 @@ export default class CreateForm extends React.Component {
           margin="normal"
           value={imageUrl}
           fullWidth
-          data="Name"
         />
         <div
           onClick={this.handleSubmit}

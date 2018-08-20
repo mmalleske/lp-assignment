@@ -29,7 +29,7 @@ const CreateProfileMutation = gql`
 
 class App extends Component {
   createProfile = async profile => {
-    console.log('foo', this.props.createProfile)
+    console.log('profile', this.props.profile)
     await this.props.createProfile({
       variables: {
         name: profile.name,

@@ -4,6 +4,7 @@ export default class ProfileCard extends React.Component {
 
   render() {
     const { name, description, imageUrl } = this.props;
+    console.log('foo', imageUrl, name)
     return (
       <article className="mw5 center bg-white br3 pa3 pa4-ns mv3 ba b--black-10">
         <div className="tc">

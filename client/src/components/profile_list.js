@@ -5,7 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import ProfileCard from './profile_card';
+import ProfileCard from "./profile_card";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -102,9 +102,15 @@ class CheckboxListSecondary extends React.Component {
     const { classes, profiles } = this.props;
 
     return (
-      <div className={classes.root}>
-        {profiles && profiles.map(profile => (
-          <ProfileCard name={profile.name} key={`key-${profile.id}`} imageUrl={profile.image_url}/>
+      <div className="flex">
+        {profiles &&
+          profiles.map(profile => (
+            <ProfileCard
+              name={profile.name}
+              key={`key-${profile.id}`}
+              imageUrl={profile.imageUrl}
+              description={profile.description}
+            />
           ))}
       </div>
     );
