@@ -3,35 +3,66 @@ import TextField from "@material-ui/core/TextField";
 
 export default class CreateForm extends React.Component {
   state = {
-    name: ""
+    name: "",
+    description: "",
+    imageUrl: ""
   };
 
-  handleChange = e => {
+  editName = e => {
     const newName = e.target.value;
-    console.log(newName);
     this.setState({ name: newName });
   };
 
+  editDescription = e => {
+    const newDescription = e.target.value;
+    this.setState({ description: newDescription });
+  };
+
+  editImageUrl = e => {
+    const newImageUrl = e.target.value;
+    this.setState({ imageUrl: newImageUrl });
+  };
+
   handleSubmit = e => {
-    if (e.key === "Enter") {
-      this.props.submit(this.state.name);
-      this.setState({ name: "" });
-    }
+    this.props.submit(this.state);
+    this.setState({ name: "", description: "", imageUrl: "" });
   };
 
   render() {
-    const { name } = this.state;
+    const { name, description, imageUrl } = this.state;
 
     return (
       <div>
         <TextField
-          onChange={this.handleChange}
-          onKeyDown={this.handleSubmit}
-          label="Create New Profile"
+          onChange={this.editName}
+          label="Name"
           margin="normal"
           value={name}
           fullWidth
+          data="Name"
         />
+        <TextField
+          onChange={this.editDescription}
+          label="Description"
+          margin="normal"
+          value={description}
+          fullWidth
+          data="Name"
+        />
+        <TextField
+          onChange={this.editImageUrl}
+          label="Image Url"
+          margin="normal"
+          value={imageUrl}
+          fullWidth
+          data="Name"
+        />
+        <div
+          onClick={this.handleSubmit}
+          className="f6 ttu link dim br1 ba bw1 ph3 pv2 mb2 dib black"
+        >
+          submit
+        </div>
       </div>
     );
   }

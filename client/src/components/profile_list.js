@@ -5,6 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import ProfileCard from './profile_card';
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -102,36 +103,9 @@ class CheckboxListSecondary extends React.Component {
 
     return (
       <div className={classes.root}>
-        <List>
-          {profiles && profiles.map(profile => (
-            <ListItem
-              key={`profile-${profile.id}`}
-              dense
-              button
-              className={classes.listItem}
-            >
-              <Avatar
-                alt={profile.name}
-                src="https://i.pinimg.com/originals/cd/c4/27/cdc427545e4e0267ef40fcf70c255a46.jpg"
-              />
-              <ListItemText primary={profile.name} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  aria-label="Edit"
-                  onClick={() => this.updateProfile(profile)}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <IconButton
-                  aria-label="Delete"
-                  onClick={() => this.deleteProfile(profile)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+        {profiles && profiles.map(profile => (
+          <ProfileCard name={profile.name} key={`key-${profile.id}`} imageUrl={profile.image_url}/>
           ))}
-        </List>
       </div>
     );
   }

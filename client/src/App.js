@@ -10,24 +10,31 @@ const ProfilesQuery = gql`
     profiles {
       name
       id
+      description
+      imageUrl
     }
   }
 `;
 
 const CreateProfileMutation = gql`
-  mutation($name: String!) {
-    createProfile(name: $name) {
+  mutation($name: String!, $description: String, $imageUrl: String) {
+    createProfile(name: $name, description: $description, imageUrl: $imageUrl) {
       id
       name
+      description
+      imageUrl
     }
   }
 `;
 
 class App extends Component {
-  createProfile = async name => {
+  createProfile = async profile => {
+    console.log('foo', this.props.createProfile)
     await this.props.createProfile({
       variables: {
-        name
+        name: profile.name,
+        description: profile.description,
+        imageUrl: profile.imageUrl
       },
       update: (store, { data: { createProfile } }) => {
         const data = store.readQuery({ query: ProfilesQuery });
