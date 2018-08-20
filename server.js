@@ -1,9 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
 const mongoose = require('mongoose')
+const express = require('express')
+const path = require('path')
 
 mongoose.connect('mongodb://userTwo:test420@ds127342.mlab.com:27342/launchpad-assignment');
-
-console.log('foo', process.env.LAUNCHPAD_DB)
 
 const Profile = mongoose.model('Profile', {
   name: String,
@@ -47,6 +47,11 @@ const resolvers = {
     }
   }
 }
+
+app.use(express.static('client/build'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+});
 
 const server = new GraphQLServer({ typeDefs, resolvers })
 mongoose.connection.once('open', function() {
